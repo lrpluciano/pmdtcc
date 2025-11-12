@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TCC CONECTADO</title>
+  <style>
+    /* ===== Reset e Variáveis ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #c00;
+      --red-light: #e60000;
+      --gray-dark: #333;
+      --gray: #555;
+      --gray-light: #777;
+      --border: #ddd;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #fafafa;
+      color: var(--gray-dark);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(95%, 1200px);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== Cabeçalho FIEC — CORRIGIDO ===== */
+    header {
+      background-color: white;
+      padding: 0;
+      border-bottom: 4px solid var(--red); /* Linha vermelha abaixo */
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px 0;
+    }
+
+    .logo-fiec {
+      height: 50px;
+    }
+
+    .logo-fiec img {
+      height: 100%;
+      display: block;
+    }
+
+    /* ===== Título Principal ===== */
+    .hero {
+      text-align: center;
+      padding: 40px 0 30px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      color: var(--red);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    /* ===== Tabs (Aulas) ===== */
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 14px 10px;
+      background: none;
+      border: none;
+      color: var(--gray);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-btn:hover {
+      color: var(--red);
+    }
+
+    .tab-btn.active {
+      color: var(--red);
+      border-bottom: 3px solid var(--red);
+    }
+
+    /* ===== Conteúdo das Aulas ===== */
+    .tab-content {
+      display: none;
+      padding: 30px 0;
+      background: white;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--red);
+      margin: 0 0 16px;
+      font-weight: 700;
+    }
+
+    /* Blocos de texto */
+    .aula-intro,
+    .prof-speech {
+      background: #f9f9f9;
+      border-left: 4px solid var(--red);
+      padding: 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 25px 0;
+      font-size: 1.02rem;
+    }
+
+    .prof-speech {
+      background: #fff8f8;
+      border-left-color: #e60000;
+    }
+
+    .aula-intro p,
+    .prof-speech p {
+      margin-bottom: 12px;
+    }
+
+    .aula-intro strong,
+    .prof-speech strong {
+      color: var(--red);
+    }
+
+    /* Vídeo */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin: 25px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-caption {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+
+    /* Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 16px var(--shadow);
+      border-color: var(--red);
+    }
+
+    .card h4 {
+      color: var(--red);
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+    }
+
+    /* Atividades */
+    .activity {
+      background: #f9f9f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+
+    .activity h4 {
+      color: var(--red);
+      margin-bottom: 14px;
+      font-size: 1.2rem;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    /* Botões */
+    .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--red);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--red-light);
+      text-decoration: none;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #resultado {
+      background: #f5f5f5;
+      padding: 14px;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-top: 15px;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--red);
+      color: white;
+      text-align: center;
+      padding: 25px 0;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .header-content {
+        justify-content: center;
+      }
+      .tabs {
+        flex-wrap: wrap;
+      }
+      .tab-btn {
+        flex: none;
+        min-width: 120px;
+      }
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho FIEC — CORRIGIDO -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="https://www.fiec.com.br" class="logo-fiec">
+          <img src="https://www.fiec.com.br/site/imgs/logo-fiec-vermelho.png" alt="Logo FIEC">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>TCC CONECTADO</h1>
+      <p>Guia interativo para o seu Trabalho de Conclusão de Curso<br>
+        <em>Projeto Multidisciplinar – 3º ano DS</em>
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- Tabs de Aulas -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="aula1">Aula 1: Referências</button>
+      <button class="tab-btn" data-tab="aula2">Aula 2: Estrutura ABNT</button>
+      <button class="tab-btn" data-tab="aula3">Aula 3: Escrita & Integração</button>
+      <button class="tab-btn" data-tab="gerador">Gerador ABNT</button>
+    </div>
+
+    <!-- Aula 1 -->
+    <section id="aula1" class="tab-content active">
+      <h2>🔍 Aula 1: Encontre referências confiáveis para dar o pontapé inicial no seu TCC</h2>
+      <div class="aula-intro">
+        <p>Você já percebeu que há muita informação disponível na internet, mas nem sempre é fácil descobrir o que é realmente confiável para dar suporte ao seu TCC?</p>
+        <p>Nesta aula, você vai aprender técnicas simples para encontrar <strong>livros, artigos científicos e materiais acadêmicos</strong> que vão fortalecer seu trabalho e garantir credibilidade.</p>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe 
+          src="https://www.youtube.com/embed/MFCmb18i-5I?rel=0&modestbranding=1&autohide=1" 
+          title="Como pesquisar Referências Bibliográficas para TCC na Internet"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+      <div class="video-caption">
+        <strong>Prof. Dr. Ivan Guedes</strong> | 
+        <a href="https://www.youtube.com/watch?v=MFCmb18i-5I" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h4>Bases Confiáveis</h4>
+          <ul>
+            <li><a href="https://www-periodicos-capes-gov-br.ez42.periodicos.capes.gov.br/" target="_blank" rel="noopener noreferrer">CAPES Periódicos</a></li>
+            <li><a href="https://scielo.org/" target="_blank" rel="noopener noreferrer">SciELO</a></li>
+            <li><a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Como avaliar uma fonte?</h4>
+          <p>✅ Autor identificado?<br>
+             ✅ Data recente?<br>
+             ✅ Instituição confiável?</p>
+        </div>
+      </div>
+
+      <div class="prof-speech">
+        <p><strong>Professor(a) orienta:</strong> Acessem Google Scholar, CAPES ou SciELO e busquem por <code>gestão escolar aplicativo</code>. Coletem 3 fontes (1 artigo, 1 documento técnico, 1 site institucional). Não precisa formatar ainda!</p>
+      </div>
+
+      <div class="activity">
+        <h4>Atividade: Caça às Fontes</h4>
+        <textarea id="fontes" rows="5" placeholder="Cole aqui os links ou referências..."></textarea>
+        <p><small>📌 Entrega: Envie um PDF no Google Classroom com seu nome, as referências e a data de hoje: <strong id="data-hoje"></strong></small></p>
+        <button class="btn" onclick="gerarPDF()">📤 Gerar PDF para entrega</button>
+      </div>
+    </section>
+
+    <!-- Aula 2 -->
+    <section id="aula2" class="tab-content">
+      <h2>📑 Aula 2: Estrutura do TCC conforme as normas ABNT</h2>
+      <div class="aula-intro">
+        <p>Conheça a estrutura obrigatória do trabalho: pré-textuais, textuais e pós-textuais — e aprenda detalhes que fazem diferença na apresentação.</p>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe 
+          src="https://www.youtube.com/embed/_8yYWMKCQDY?rel=0&modestbranding=1&autohide=1" 
+          title="Estrutura Básica do TCC: Guia Prático ABNT"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="video-caption">
+        <strong>Profª. Flávia Rita</strong> | 
+        <a href="https://www.youtube.com/watch?v=_8yYWMKCQDY" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h4>Pré-textuais</h4>
+          <ul><li>Capa</li><li>Folha de rosto</li><li>Resumo</li><li>Sumário</li></ul>
+        </div>
+        <div class="card">
+          <h4>Textuais</h4>
+          <ul><li>Introdução</li><li>Desenvolvimento</li><li>Conclusão</li></ul>
+        </div>
+        <div class="card">
+          <h4>Pós-textuais</h4>
+          <ul><li>Referências</li><li>Apêndices</li></ul>
+        </div>
+      </div>
+
+      <div class="activity">
+        <h4>Atividade: Ordem do Sumário</h4>
+        <p>Qual a sequência correta?</p>
+        <button class="btn" onclick="document.getElementById('feedback-sumario').style.display='block'">Ver gabarito</button>
+        <div id="feedback-sumario" style="display:none; margin-top:12px; padding:12px; background:#f0f0f0; border-radius:6px;">
+          ✅ Capa → Folha de rosto → Resumo → Sumário → Introdução → Desenvolvimento → Conclusão → Referências
+        </div>
+      </div>
+    </section>
+
+    <!-- Aula 3 -->
+    <section id="aula3" class="tab-content">
+      <h2>💡 Aula 3: Escrita técnica e revisão por pares</h2>
+      <div class="aula-intro">
+        <p>Aprenda a escrever uma introdução forte em 5 linhas e a revisar o texto de colegas — prática essencial para qualidade e clareza.</p>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe 
+          src="https://www.youtube.com/embed/5wU8eSTSLeM?rel=0&modestbranding=1&autohide=1" 
+          title="Google Acadêmico: Como usar?"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="video-caption">
+        <strong>Manual da Monografia</strong> | 
+        <a href="https://www.youtube.com/watch?v=5wU8eSTSLeM" target="_blank" rel="noopener noreferrer">Assistir no YouTube</a>
+      </div>
+
+      <div class="prof-speech">
+        <p><strong>Professor(a) orienta:</strong> Escreva sua introdução em até 5 linhas (problema, objetivo, justificativa, disciplinas, produto). Depois, troque com um colega para revisão por pares!</p>
+      </div>
+
+      <div class="activity">
+        <h4>Atividade: Sua introdução em 5 linhas</h4>
+        <textarea id="introducao" rows="5" placeholder="Escreva aqui..."></textarea>
+        <p><small>📌 Entrega: PDF no Classroom com nome, introdução e data de hoje: <strong id="data-hoje-aula3"></strong></small></p>
+        <button class="btn" onclick="gerarPDFAula3()">📤 Gerar PDF para entrega</button>
+      </div>
+    </section>
+
+    <!-- Gerador ABNT -->
+    <section id="gerador" class="tab-content">
+      <h2>📑 Gerador Rápido de Referências ABNT</h2>
+      <div class="aula-intro">
+        <p>Formate suas referências segundo a <strong>ABNT NBR 6023:2023</strong> — 100% offline, sem login.</p>
+      </div>
+
+      <div class="activity">
+        <h4>Selecione o tipo de referência</h4>
+        <select id="tipo-ref" class="btn" style="width:100%; text-align:left; background:#333; color:white; margin:10px 0;">
+          <option value="">— Escolha —</option>
+          <option value="livro">Livro</option>
+          <option value="artigo">Artigo científico</option>
+          <option value="site">Site institucional</option>
+          <option value="documento">Documento técnico</option>
+          <option value="tcc">TCC</option>
+        </select>
+
+        <div id="campos-dinamicos" style="margin:20px 0;"></div>
+        <div id="resultado"></div>
+
+        <button id="btn-gerar" class="btn" style="margin-top:15px; width:100%;" disabled>Selecione um tipo</button>
+        <button id="btn-copiar" class="btn" style="margin-top:10px; background:#2e7d32; display:none;" onclick="copiarReferencia()">📋 Copiar</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>FIEC — Formando profissionais para transformar o futuro</p>
+      <p><a href="https://www.fiec.com.br" target="_blank" rel="noopener noreferrer">www.fiec.com.br</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Controle de abas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn, .tab-content').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Gerador ABNT (simplificado)
+    const templates = {
+      livro: `
+        <label>Autores: <input type="text" id="autores" placeholder="SOBRENOME, Nome" required></label>
+        <label>Título: <input type="text" id="titulo" placeholder="Título do livro" required></label>
+        <label>Local: <input type="text" id="local" placeholder="São Paulo" required></label>
+        <label>Editora: <input type="text" id="editora" placeholder="Editora XYZ" required></label>
+        <label>Ano: <input type="text" id="ano" placeholder="2023" required></label>
+      `,
+      artigo: `
+        <label>Autores: <input type="text" id="autores" placeholder="SOBRENOME, Nome" required></label>
+        <label>Título: <input type="text" id="titulo" placeholder="Título do artigo" required></label>
+        <label>Periódico: <input type="text" id="revista" placeholder="Revista X" required></label>
+        <label>Vol., pág.: <input type="text" id="vol" placeholder="v. 5, p. 10-25" required></label>
+        <label>Ano: <input type="text" id="ano" placeholder="2023" required></label>
+      `,
+      site: `
+        <label>Instituição: <input type="text" id="autor" placeholder="MINISTÉRIO DA EDUCAÇÃO" required></label>
+        <label>Título: <input type="text" id="titulo" placeholder="Políticas de Inclusão" required></label>
+        <label>URL: <input type="text" id="url" placeholder="https://..." required></label>
+        <label>Acesso em: <input type="text" id="acesso" placeholder="10 nov. 2025" required></label>
+      `
+    };
+
+    const tipoRef = document.getElementById('tipo-ref');
+    const camposDiv = document.getElementById('campos-dinamicos');
+    const btnGerar = document.getElementById('btn-gerar');
+    const resultadoDiv = document.getElementById('resultado');
+    const btnCopiar = document.getElementById('btn-copiar');
+
+    tipoRef.addEventListener('change', () => {
+      const tipo = tipoRef.value;
+      camposDiv.innerHTML = tipo && templates[tipo] ? templates[tipo] : '';
+      btnGerar.disabled = !tipo;
+      resultadoDiv.style.display = 'none';
+      btnCopiar.style.display = 'none';
+    });
+
+    btnGerar.addEventListener('click', () => {
+      const v = id => document.getElementById(id)?.value?.trim() || '';
+      let ref = '';
+      const tipo = tipoRef.value;
+      if (tipo === 'livro') ref = `${v('autores')}. <i>${v('titulo')}</i>. ${v('local')}: ${v('editora')}, ${v('ano')}.`;
+      else if (tipo === 'artigo') ref = `${v('autores')}. ${v('titulo')}. <i>${v('revista')}</i>, ${v('vol')}, ${v('ano')}.`;
+      else if (tipo === 'site') ref = `${v('autor')}. ${v('titulo')}. Disponível em: ${v('url')}. Acesso em: ${v('acesso')}.`;
+
+      if (!ref || ref.includes('undefined')) {
+        alert('⚠️ Preencha os campos.');
+        return;
+      }
+
+      resultadoDiv.innerHTML = ref;
+      resultadoDiv.style.display = 'block';
+      btnCopiar.style.display = 'inline-block';
+    });
+
+    function copiarReferencia() {
+      const txt = resultadoDiv.textContent || resultadoDiv.innerText;
+      if (!txt) return;
+      navigator.clipboard?.writeText(txt).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = txt;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      });
+      btnCopiar.textContent = '✅ Copiado!';
+      setTimeout(() => btnCopiar.textContent = '📋 Copiar', 2000);
+    }
+
+    // Datas
+    function setData(id) {
+      const hoje = new Date();
+      document.getElementById(id).textContent = 
+        `${String(hoje.getDate()).padStart(2,'0')}/${String(hoje.getMonth()+1).padStart(2,'0')}/${hoje.getFullYear()}`;
+    }
+
+    function gerarPDF() {
+      const nome = prompt("Seu nome completo:");
+      if (!nome) return;
+      const refs = document.getElementById('fontes').value.trim();
+      if (!refs) { alert('Cole as referências primeiro.'); return; }
+      const data = document.getElementById('data-hoje').textContent;
+      const txt = `Nome: ${nome}\nData: ${data}\nReferências:\n${refs}\n---\nFIEC`;
+      downloadTxt(txt, `TCC_Aula1_${nome}.txt`);
+    }
+
+    function gerarPDFAula3() {
+      const nome = prompt("Seu nome completo:");
+      if (!nome) return;
+      const intro = document.getElementById('introducao').value.trim();
+      if (!intro) { alert('Escreva a introdução primeiro.'); return; }
+      const data = document.getElementById('data-hoje-aula3').textContent;
+      const txt = `Nome: ${nome}\nData: ${data}\nIntrodução:\n${intro}\n---\nFIEC`;
+      downloadTxt(txt, `TCC_Aula3_${nome}.txt`);
+    }
+
+    function downloadTxt(content, filename) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('✅ Arquivo gerado! Abra no Word e salve como PDF.');
+    }
+
+    // Inicializa
+    document.addEventListener('DOMContentLoaded', () => {
+      setData('data-hoje');
+      setData('data-hoje-aula3');
+    });
+  </script>
+
+</body>
+</html>
